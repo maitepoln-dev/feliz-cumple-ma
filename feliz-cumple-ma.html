@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>¡Feliz Cumple Ma!</title>
+ <style>
+ @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;600&display=swap');
+
+ body {
+ margin: 0;
+ padding: 0;
+ font-family: 'Quicksand', sans-serif;
+ background-color: #fce4ec;
+ color: #333;
+ overflow: hidden;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ height: 100vh;
+ text-align: center;
+ transition: background 0.8s ease-in-out;
+ }
+
+ .scene {
+ display: none;
+ width: 90%;
+ max-width: 600px;
+ background: white;
+ padding: 40px;
+ border-radius: 20px;
+ box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+ animation: fadeIn 2s ease-in-out;
+ }
+
+ .active {
+ display: block;
+ }
+
+ @keyframes fadeIn {
+ from { opacity: 0; transform: translateY(20px); }
+ to { opacity: 1; transform: translateY(0); }
+ }
+
+ @keyframes heartbeat {
+ 0% { transform: scale(1); }
+ 14% { transform: scale(1.15); }
+ 28% { transform: scale(1); }
+ 42% { transform: scale(1.15); }
+ 70% { transform: scale(1); }
+ 100% { transform: scale(1); }
+ }
+
+ @keyframes floatUp {
+ 0% { transform: translateY(0px); opacity: 1; }
+ 100% { transform: translateY(-100vh); opacity: 0; }
+ }
+
+ @keyframes floatHeart {
+ 0% { transform: translateY(0px); opacity: 1; }
+ 100% { transform: translateY(-30px); opacity: 0; }
+ }
+
+ #ocean {
+ position: relative;
+ height: 400px;
+ background: linear-gradient(180deg, #81d4fa 0%, #4fc3f7 50%, #29b6f6 100%);
+ border-radius: 15px;
+ margin-top: 20px;
+ overflow: hidden;
+ border: 3px solid #0288d1;
+ }
+
+ .fish {
+ position: absolute;
+ cursor: pointer;
+ user-select: none;
+ transition: transform 0.2s;
+ filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+ }
+
+ .fish:hover {
+ transform: scale(1.2);
+ }
+
+ @keyframes swimLeft {
+ 0% { transform: translateX(0px) translateY(0px); }
+ 25% { transform: translateX(-30px) translateY(10px); }
+ 50% { transform: translateX(-50px) translateY(0px); }
+ 75% { transform: translateX(-30px) translateY(-10px); }
+ 100% { transform: translateX(0px) translateY(0px); }
+ }
+
+ @keyframes swimRight {
+ 0% { transform: translateX(0px) translateY(0px); }
+ 25% { transform: translateX(30px) translateY(-10px); }
+ 50% { transform: translateX(50px) translateY(0px); }
+ 75% { transform: translateX(30px) translateY(10px); }
+ 100% { transform: translateX(0px) translateY(0px); }
+ }
+
+ .fish-swim-left {
+ animation: swimLeft 4s infinite ease-in-out;
+ }
+
+ .fish-swim-right {
+ animation: swimRight 5s infinite ease-in-out;
+ }
+
+ .nemo-fish {
+ filter: drop-shadow(3px 3px 6px rgba(0,0,0,0.3));
+ }
+
+ .bubble {
+ position: absolute;
+ background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.1));
+ border-radius: 50%;
+ border: 2px solid rgba(255,255,255,0.3);
+ pointer-events: none;
+ animation: float 6s infinite ease-in-out;
+ }
+
+ @keyframes float {
+ 0% { transform: translateY(0px); opacity: 0; }
+ 10% { opacity: 1; }
+ 90% { opacity: 1; }
+ 100% { transform: translateY(-400px); opacity: 0; }
+ }
+
+ #celebration {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100%;
+ height: 100%;
+ background: #ffb6d9;
+ display: none;
+ z-index: 9999;
+ justify-content: center;
+ align-items: center;
+ flex-direction: column;
+ }
+
+ #celebration.active {
+ display: flex;
+ }
+
+ #celebration h1 {
+ font-family: 'Fredoka One', cursive;
+ font-size: 3em;
+ color: #c2185b;
+ text-shadow: 2px 2px 8px rgba(0,0,0,0.2);
+ margin-bottom: 20px;
+ z-index: 10000;
+ }
+
+ .floating-heart {
+ position: fixed;
+ font-size: 2.5em;
+ pointer-events: none;
+ animation: floatUp 4s ease-in infinite;
+ }
+
+ .floating-star {
+ position: fixed;
+ font-size: 1.8em;
+ pointer-events: none;
+ animation: floatUp 5s ease-in infinite;
+ }
+
+ h1 {
+ font-family: 'Fredoka One', cursive;
+ color: #d81b60;
+ font-size: 2.5em;
+ }
+
+ p {
+ font-size: 1.2em;
+ line-height: 1.6;
+ }
+
+ .btn {
+ background-color: #ff4081;
+ color: white;
+ border: none;
+ padding: 15px 30px;
+ font-size: 1.2em;
+ border-radius: 50px;
+ cursor: pointer;
+ margin-top: 20px;
+ font-family: 'Fredoka One', cursive;
+ transition: transform 0.2s, background-color 0.2s;
+ }
+
+ .btn:hover {
+ transform: scale(1.05);
+ background-color: #d81b60;
+ }
+
+ .heartbeat-btn {
+ animation: heartbeat 2.5s infinite;
+ position: relative;
+ }
+
+ /* Temáticas específicas */
+ .gump { 
+ border-top: 8px solid #795548; 
+ background: linear-gradient(135deg, #d7ccc8 0%, #a1887f 100%);
+ }
+ 
+ .gump h1 {
+ color: #3e2723;
+ }
+ 
+ .gump p {
+ color: #4e342e;
+ }
+ 
+ .gump .btn {
+ background-color: #795548;
+ }
+ 
+ .gump .btn:hover {
+ background-color: #5d4037;
+ }
+
+ .nemo { 
+ border-top: 8px solid #0288d1;
+ background: linear-gradient(135deg, #b3e5fc 0%, #81d4fa 50%, #4fc3f7 100%);
+ }
+ 
+ .nemo h1 {
+ color: #01579b;
+ text-shadow: 2px 2px 4px rgba(255,255,255,0.5);
+ }
+ 
+ .nemo p {
+ color: #0277bd;
+ }
+ 
+ .nemo .btn {
+ background-color: #0288d1;
+ }
+ 
+ .nemo .btn:hover {
+ background-color: #01579b;
+ }
+
+ .madagascar { 
+ border-top: 8px solid #4caf50;
+ background: linear-gradient(135deg, #c8e6c9 0%, #81c784 50%, #66bb6a 100%);
+ }
+ 
+ .madagascar h1 {
+ color: #1b5e20;
+ }
+ 
+ .madagascar p {
+ color: #2e7d32;
+ }
+ 
+ .madagascar .btn {
+ background-color: #558b2f;
+ }
+ 
+ .madagascar .btn:hover {
+ background-color: #33691e;
+ }
+
+ .lobos { 
+ border-top: 8px solid #607d8b;
+ background: linear-gradient(135deg, #cfd8dc 0%, #90a4ae 50%, #78909c 100%);
+ }
+ 
+ .lobos h1 {
+ color: #1a237e;
+ }
+ 
+ .lobos p {
+ color: #37474f;
+ }
+ 
+ .lobos .btn {
+ background-color: #455a64;
+ }
+ 
+ .lobos .btn:hover {
+ background-color: #263238;
+ }
+
+ .final { 
+ border-top: 8px solid #e91e63;
+ background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 50%, #f48fb1 100%);
+ }
+ 
+ .final h1 {
+ color: #880e4f;
+ text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+ }
+ 
+ .final p {
+ color: #c2185b;
+ }
+ 
+ .final .btn {
+ background-color: #e91e63;
+ }
+ 
+ .final .btn:hover {
+ background-color: #880e4f;
+ }
+ </style>
+</head>
+<body>
+
+ <!-- ESCENA 1: Forrest Gump -->
+ <div id="scene1" class="scene gump active">
+ <h1>Para la mejor mamá 🍫</h1>
+ <p> <em>"La vida es como una caja de bombones, nunca sabes lo que te va a tocar"</em>.</p>
+ <p>Yo tuve mucha suerte, porque me tocaste vos como mamá! Gracias por enseñarme a correr siempre hacia adelante, sin importar las barreras.</p>
+ <button class="btn" onclick="nextScene(1)">Abrir la caja...</button>
+ </div>
+
+ <!-- ESCENA 2: Buscando a Nemo -->
+ <div id="scene2" class="scene nemo">
+ <h1>¡Sigue nadando! 🌊</h1>
+ <p>Cuando la vida se pone difícil, vos siempre me enseñaste que la solución es: <strong>"Sigue nadando, sigue nadando"</strong>.</p>
+ <p>Para leer la siguiente parte de tu carta tenes que encontrar a Nemo en el océano: </p>
+ <div id="ocean"></div>
+ </div>
+
+ <!-- ESCENA 3: Madagascar -->
+ <div id="scene3" class="scene madagascar">
+ <h1>¡A mover el bote! 🦁🐧</h1>
+ <p>¡Hoy es tu cumpleaños y toca festejar! 🎉</p>
+ <p>Como dirían los pingüinos: <strong>"Sonrían y saluden, muchachos... sonrían y saluden"</strong></p>
+ <div style="margin: 30px 0;">
+ <img src="madagascar.png" style="width: 100%; max-width: 300px; height: auto;" alt="Personajes de Madagascar">
+ </div>
+ <button class="btn" onclick="nextScene(3)">Seguir la fiesta</button>
+ </div>
+
+ <!-- ESCENA 4: Danza con Lobos -->
+ <div id="scene4" class="scene lobos">
+ <h1>Nuestra gran frontera 🐺⛺</h1>
+ <p>En el viaje de la vida, descubrí que lo más valioso no es el destino, sino con quién viajas.</p>
+ <p>Al igual que en <em>Danza con Lobos</em>, me enseñaste el valor de la lealtad pura, de escuchar a la naturaleza y de amar sin fronteras. Gracias por ser mi mi guía en cada territorio desconocido.</p>
+ <p>Buena travesía siempre, ma.</p>
+ <div style="margin: 30px 0;">
+ <img src="lobo.png" style="width: 100%; max-width: 250px; height: auto;" alt="Lobo">
+ </div>
+ <button class="btn" onclick="nextScene(4)">Llegar al final</button>
+ </div>
+
+ <!-- ESCENA 5: Final -->
+ <div id="scene5" class="scene final">
+ <h1>¡Feliz Cumpleaños, Ma! 🎂💖</h1>
+ <p>Espero que te haya gustado este pequeño viaje por tus películas favoritas.</p>
+ <p>Te amo muchooo</p>
+ <h2>¿Estás lista para recibir tu primer regalo?</h2>
+ <button class="btn heartbeat-btn" onclick="celebration()">¡SÍ, ESTOY LISTA!</button>
+ </div>
+
+ <!-- Celebración con corazones y estrellas -->
+ <div id="celebration">
+ <h1>¡FELIZ CUMPLEAÑOS! 💕✨</h1>
+ </div>
+
+ <script>
+ // Establecer fondo inicial
+ document.addEventListener('DOMContentLoaded', function() {
+ document.body.style.background = 'white';
+ });
+
+ // Función para cambiar de escenas
+ function nextScene(current) {
+ document.getElementById('scene' + current).classList.remove('active');
+ document.getElementById('scene' + (current + 1)).classList.add('active');
+ 
+ // Cambiar fondo del body según la escena
+ const backgrounds = {
+ 1: 'white',
+ 2: 'linear-gradient(135deg, #4fc3f7 0%, #29b6f6 50%, #0288d1 100%)',
+ 3: 'linear-gradient(135deg, #81c784 0%, #66bb6a 50%, #4caf50 100%)',
+ 4: 'linear-gradient(135deg, #90a4ae 0%, #78909c 50%, #607d8b 100%)',
+ 5: 'linear-gradient(135deg, #f48fb1 0%, #f06292 50%, #ec407a 100%)'
+ };
+ 
+ document.body.style.background = backgrounds[current + 1] || backgrounds[1];
+ 
+ // Si pasamos a la escena 2, generamos el juego de Nemo
+ if (current === 1) {
+ generateOcean();
+ }
+ }
+
+ // Crear peces
+ function createFish(type = 'normal') {
+ if (type === 'nemo') {
+ return '<img src="nemo.png" style="width: 60px; height: 45px;" alt="Nemo">';
+ }
+ 
+ const fishImages = ['pez-azul.png', 'estrella.png', 'caracola.png', 'tortuga.png', 'pulpo.png', 'medusa.png'];
+ const img = fishImages[Math.floor(Math.random() * fishImages.length)];
+ return '<img src="' + img + '" style="width: 50px; height: 50px; object-fit: contain;" alt="Pez">';
+ }
+
+ // Generar océano con peces
+ function generateOcean() {
+ const ocean = document.getElementById('ocean');
+ ocean.innerHTML = '';
+ 
+ const totalFishes = 12;
+ const usedPositions = [];
+
+ function getAvailablePosition() {
+ let attempts = 0;
+ let position;
+ 
+ do {
+ position = {
+ left: Math.random() * 70 + 5,
+ top: Math.random() * 70 + 5
+ };
+ attempts++;
+ } while (
+ usedPositions.some(p => 
+ Math.abs(p.left - position.left) < 15 || Math.abs(p.top - position.top) < 15
+ ) && attempts < 20
+ );
+ 
+ usedPositions.push(position);
+ return position;
+ }
+
+ // Peces de distracción
+ for (let i = 0; i < totalFishes; i++) {
+ let fish = document.createElement('div');
+ fish.classList.add('fish');
+ const swimClass = Math.random() > 0.5 ? 'fish-swim-left' : 'fish-swim-right';
+ fish.classList.add(swimClass);
+ fish.innerHTML = createFish('normal');
+ 
+ const pos = getAvailablePosition();
+ fish.style.left = pos.left + '%';
+ fish.style.top = pos.top + '%';
+ fish.style.animationDelay = (Math.random() * 2) + 's';
+ 
+ fish.onclick = function() {
+ alert('¡Ese no es Nemo! Sigue nadando...');
+ };
+ ocean.appendChild(fish);
+ }
+
+ // Nemo
+ let nemo = document.createElement('div');
+ nemo.classList.add('fish', 'nemo-fish', 'fish-swim-left');
+ nemo.innerHTML = createFish('nemo');
+ 
+ const nemoPos = getAvailablePosition();
+ nemo.style.left = nemoPos.left + '%';
+ nemo.style.top = nemoPos.top + '%';
+ nemo.style.animationDelay = (Math.random() * 2) + 's';
+ 
+ nemo.onclick = function() {
+ alert('¡Lo encontraste! Sigamos con la carta...');
+ nextScene(2);
+ };
+ ocean.appendChild(nemo);
+
+ // Burbujas
+ for (let i = 0; i < 8; i++) {
+ let bubble = document.createElement('div');
+ bubble.classList.add('bubble');
+ bubble.style.width = (10 + Math.random() * 20) + 'px';
+ bubble.style.height = bubble.style.width;
+ bubble.style.left = Math.random() * 90 + '%';
+ bubble.style.bottom = '-50px';
+ bubble.style.animationDelay = (Math.random() * 3) + 's';
+ bubble.style.animationDuration = (5 + Math.random() * 3) + 's';
+ ocean.appendChild(bubble);
+ }
+ }
+
+ // Celebración final
+ function celebration() {
+ const celebrationDiv = document.getElementById('celebration');
+ celebrationDiv.classList.add('active');
+ 
+ const createHeartOrStar = function() {
+ const element = document.createElement('div');
+ const isHeart = Math.random() > 0.4;
+ 
+ if (isHeart) {
+ element.classList.add('floating-heart');
+ element.textContent = '💕';
+ } else {
+ element.classList.add('floating-star');
+ element.textContent = '✨';
+ }
+ 
+ element.style.left = Math.random() * 100 + '%';
+ element.style.bottom = '-50px';
+ element.style.animationDuration = (4 + Math.random() * 2) + 's';
+ element.style.animationDelay = Math.random() * 0.5 + 's';
+ 
+ celebrationDiv.appendChild(element);
+ 
+ setTimeout(function() { element.remove(); }, 6000);
+ };
+ 
+ const interval = setInterval(createHeartOrStar, 200);
+ 
+ setTimeout(function() {
+ clearInterval(interval);
+ }, 8000);
+ }
+ </script>
+</body>
+</html>
